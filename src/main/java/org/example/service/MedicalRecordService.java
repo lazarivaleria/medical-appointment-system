@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.entity.MedicalRecord;
 import org.example.repository.MedicalRecordRepository;
 import org.springframework.stereotype.Service;
+import org.example.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class MedicalRecordService {
 
     public void delete(Long id) {
         if (!repo.existsById(id))
-            throw new RuntimeException("Fisa medicala nu exista!");
+            throw new ResourceNotFoundException("Fisa medicala nu exista!");
         repo.deleteById(id);
     }
 

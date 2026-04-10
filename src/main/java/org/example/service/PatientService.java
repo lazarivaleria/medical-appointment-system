@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.entity.Patient;
 import org.example.repository.PatientRepository;
 import org.springframework.stereotype.Service;
+import org.example.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class PatientService {
 
     public void delete(Long id) {
         if (!repo.existsById(id))
-            throw new RuntimeException("Pacientul nu exista!");
+            throw new ResourceNotFoundException("Pacientul nu exista!");
         repo.deleteById(id);
     }
 

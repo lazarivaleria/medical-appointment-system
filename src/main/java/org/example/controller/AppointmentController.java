@@ -1,8 +1,10 @@
 package org.example.controller;
 
 import org.example.entity.Appointment;
-import org.example.service.AppointmentService;
 import org.example.repository.AppointmentRepository;
+import org.example.service.AppointmentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,46 +23,47 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public List<Appointment> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<Appointment>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public Appointment getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<Appointment> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PostMapping
-    public Appointment create(@RequestBody Appointment a) {
-        return service.save(a);
+    public ResponseEntity<Appointment> create(@RequestBody Appointment a) {
+        return new ResponseEntity<>(service.save(a), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Appointment update(@PathVariable Long id, @RequestBody Appointment a) {
+    public ResponseEntity<Appointment> update(@PathVariable Long id, @RequestBody Appointment a) {
         a.setId(id);
-        return service.save(a);
+        return ResponseEntity.ok(service.save(a));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    //dupa data
+    // 🔎 după dată
     @GetMapping("/date")
-    public List<Appointment> getByDate(@RequestParam String date) {
-        return repo.findByDate(LocalDate.parse(date));
+    public ResponseEntity<List<Appointment>> getByDate(@RequestParam String date) {
+        return ResponseEntity.ok(repo.findByDate(LocalDate.parse(date)));
     }
 
-    //dupa pacient
+    // 🔎 după pacient
     @GetMapping("/patient/{id}")
-    public List<Appointment> getByPatient(@PathVariable Long id) {
-        return repo.findByPatientId(id);
+    public ResponseEntity<List<Appointment>> getByPatient(@PathVariable Long id) {
+        return ResponseEntity.ok(repo.findByPatientId(id));
     }
 
-    //dupa medic
+    // 🔎 după doctor
     @GetMapping("/doctor/{id}")
-    public List<Appointment> getByDoctor(@PathVariable Long id) {
-        return repo.findByDoctorId(id);
+    public ResponseEntity<List<Appointment>> getByDoctor(@PathVariable Long id) {
+        return ResponseEntity.ok(repo.findByDoctorId(id));
     }
 }

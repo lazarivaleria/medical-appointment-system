@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.entity.Appointment;
 import org.example.repository.AppointmentRepository;
 import org.springframework.stereotype.Service;
+import org.example.exception.ResourceNotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -47,7 +48,7 @@ public class AppointmentService {
 
     public void delete(Long id) {
         if (!repo.existsById(id))
-            throw new RuntimeException("Programarea nu exista!");
+            throw new ResourceNotFoundException("Programarea nu exista!");
         repo.deleteById(id);
     }
 

@@ -1,8 +1,10 @@
 package org.example.controller;
 
 import org.example.entity.Prescription;
-import org.example.service.PrescriptionService;
 import org.example.repository.PrescriptionRepository;
+import org.example.service.PrescriptionService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,40 +22,41 @@ public class PrescriptionController {
     }
 
     @GetMapping
-    public List<Prescription> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<Prescription>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public Prescription getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<Prescription> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PostMapping
-    public Prescription create(@RequestBody Prescription p) {
-        return service.save(p);
+    public ResponseEntity<Prescription> create(@RequestBody Prescription p) {
+        return new ResponseEntity<>(service.save(p), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Prescription update(@PathVariable Long id, @RequestBody Prescription p) {
+    public ResponseEntity<Prescription> update(@PathVariable Long id, @RequestBody Prescription p) {
         p.setId(id);
-        return service.save(p);
+        return ResponseEntity.ok(service.save(p));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    //dupa medicament
+    // 🔎 după medicament
     @GetMapping("/medication")
-    public List<Prescription> getByMedication(@RequestParam String medication) {
-        return repo.findByMedicationContaining(medication);
+    public ResponseEntity<List<Prescription>> getByMedication(@RequestParam String medication) {
+        return ResponseEntity.ok(repo.findByMedicationContaining(medication));
     }
 
-    //dupa fisa medicala
+    // 🔎 după fișa medicală
     @GetMapping("/record/{id}")
-    public List<Prescription> getByRecord(@PathVariable Long id) {
-        return repo.findByMedicalRecordId(id);
+    public ResponseEntity<List<Prescription>> getByRecord(@PathVariable Long id) {
+        return ResponseEntity.ok(repo.findByMedicalRecordId(id));
     }
 }

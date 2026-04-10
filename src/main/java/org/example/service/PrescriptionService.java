@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.entity.Prescription;
 import org.example.repository.PrescriptionRepository;
 import org.springframework.stereotype.Service;
+import org.example.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class PrescriptionService {
 
     public void delete(Long id) {
         if (!repo.existsById(id))
-            throw new RuntimeException("Reteta nu exista!");
+            throw new ResourceNotFoundException("Reteta nu exista!");
         repo.deleteById(id);
     }
 

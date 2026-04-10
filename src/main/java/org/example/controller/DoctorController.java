@@ -1,8 +1,10 @@
 package org.example.controller;
 
 import org.example.entity.Doctor;
-import org.example.service.DoctorService;
 import org.example.repository.DoctorRepository;
+import org.example.service.DoctorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,40 +22,39 @@ public class DoctorController {
     }
 
     @GetMapping
-    public List<Doctor> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<Doctor>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public Doctor getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<Doctor> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PostMapping
-    public Doctor create(@RequestBody Doctor d) {
-        return service.save(d);
+    public ResponseEntity<Doctor> create(@RequestBody Doctor d) {
+        return new ResponseEntity<>(service.save(d), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Doctor update(@PathVariable Long id, @RequestBody Doctor d) {
+    public ResponseEntity<Doctor> update(@PathVariable Long id, @RequestBody Doctor d) {
         d.setId(id);
-        return service.save(d);
+        return ResponseEntity.ok(service.save(d));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    //dupa specializare
     @GetMapping("/specialization")
-    public List<Doctor> getBySpecialization(@RequestParam String specialization) {
-        return repo.findBySpecialization(specialization);
+    public ResponseEntity<List<Doctor>> getBySpecialization(@RequestParam String specialization) {
+        return ResponseEntity.ok(repo.findBySpecialization(specialization));
     }
 
-    //dupa nume
     @GetMapping("/search")
-    public List<Doctor> searchByName(@RequestParam String name) {
-        return repo.findByNameContaining(name);
+    public ResponseEntity<List<Doctor>> searchByName(@RequestParam String name) {
+        return ResponseEntity.ok(repo.findByNameContaining(name));
     }
 }
