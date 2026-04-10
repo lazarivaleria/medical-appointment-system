@@ -49,19 +49,16 @@ public class AppointmentController {
         return ResponseEntity.noContent().build();
     }
 
-    // 🔎 după dată
     @GetMapping("/date")
     public ResponseEntity<List<Appointment>> getByDate(@RequestParam String date) {
         return ResponseEntity.ok(repo.findByDate(LocalDate.parse(date)));
     }
 
-    // 🔎 după pacient
     @GetMapping("/patient/{id}")
     public ResponseEntity<List<Appointment>> getByPatient(@PathVariable Long id) {
         return ResponseEntity.ok(repo.findByPatientId(id));
     }
 
-    // 🔎 după doctor
     @GetMapping("/doctor/{id}")
     public ResponseEntity<List<Appointment>> getByDoctor(@PathVariable Long id) {
         return ResponseEntity.ok(repo.findByDoctorId(id));

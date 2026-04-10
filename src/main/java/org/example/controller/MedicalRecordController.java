@@ -48,7 +48,6 @@ public class MedicalRecordController {
         return ResponseEntity.noContent().build();
     }
 
-    // 🔎 după diagnostic
     @GetMapping("/diagnosis")
     public ResponseEntity<List<MedicalRecord>> getByDiagnosis(@RequestParam String diagnosis) {
         return ResponseEntity.ok(repo.findByDiagnosisContaining(diagnosis));

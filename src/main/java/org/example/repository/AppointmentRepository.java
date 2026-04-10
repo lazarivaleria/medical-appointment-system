@@ -8,12 +8,12 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    // programari dupa data
+    //programari dupa data
     List<Appointment> findByDate(LocalDate date);
 
-    // programari dupa pacient
+    //programari dupa pacient
     List<Appointment> findByPatientId(Long patientId);
 
-    // programari dupa medic
+    //programari dupa medic
     List<Appointment> findByDoctorId(Long doctorId);
 }

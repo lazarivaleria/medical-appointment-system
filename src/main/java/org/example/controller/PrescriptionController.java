@@ -48,13 +48,11 @@ public class PrescriptionController {
         return ResponseEntity.noContent().build();
     }
 
-    // 🔎 după medicament
     @GetMapping("/medication")
     public ResponseEntity<List<Prescription>> getByMedication(@RequestParam String medication) {
         return ResponseEntity.ok(repo.findByMedicationContaining(medication));
     }
 
-    // 🔎 după fișa medicală
     @GetMapping("/record/{id}")
     public ResponseEntity<List<Prescription>> getByRecord(@PathVariable Long id) {
         return ResponseEntity.ok(repo.findByMedicalRecordId(id));
